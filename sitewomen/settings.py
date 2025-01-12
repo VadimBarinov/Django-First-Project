@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ["127.0.0.1"]
 
 
 # Application definition
-
+# здесь нужно прописывать все приложения!!!
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
