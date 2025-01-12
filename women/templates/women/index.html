@@ -2,18 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }}</title>
+<!--значение по умолчанию (если отсутствует такая переменная)-->
+    <title>{{ main_title|default:"Без заголовка" }}</title>
 </head>
 <body>
-<p>{{ menu }}</p>
-<p>{{ float }}</p>
+<!--фильры first и last-->
+<p>{{ menu|first }}</p>
+<p>{{ menu|last }}</p>
+<!--join-->
+<p>{{ menu|join:" | " }}</p>
+<!--фильтр add-->
+<p>{{ float|add:"50" }}</p>
+<!--фильтр кратности-->
+<p>{{ float|divisibleby:"3" }}</p>
 <p>{{ lst }}</p>
-<p>{{ set }}</p>
+<!--length-->
+<p>{{ set|length }}</p>
 <!--через точку можно обращаться к атрибутам-->
 <p>{{ dict.key_1 }} {{ dict.key_2 }}</p>
 <p>{{ obj.a }}</p>
+<p>
+<!--превращает в slug-->
+    {{ "The Main Page"|slugify}}
+</p>
+<p>{{ url }}</p>
 <h1>
-    {{ title }}
+<!--фильтр upper-->
+    {{ title|upper }}
 </h1>
+<h2>
+<!--удаляем указанные символы с помощью фильтра cut-->
+    {{ title|cut:" "|cut:"а" }}
+</h2>
 </body>
 </html>

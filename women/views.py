@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.template.loader import render_to_string
+from django.template.defaultfilters import slugify
 
 
 menu = ["О сайте", "Добавить статью", "Обратная связь", "Войти"]
@@ -26,6 +27,8 @@ def index(request):
             "key_2": "value_2",
         },
         "obj": MyClass(10, 20),
+        # фильтры можно использовать и в самом питоне
+        "url": slugify("The Main Page"),
     }
     return render(request, "women/index.html", context=data)
 
