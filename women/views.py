@@ -1,10 +1,14 @@
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, HttpResponsePermanentRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.template.defaultfilters import slugify
 
 
-menu = ["О сайте", "Добавить статью", "Обратная связь", "Войти"]
+menu = [
+    {"title": "О сайте", "url_name": "about"},
+    {"title": "Добавить статью", "url_name": "add_page"},
+    {"title": "Обратная связь", "url_name": "contact"},
+    {"title": "Войти", "url_name": "login"},
+]
 
 data_db = [
     {'id':1, 'title':'Анджелина Джоли', 'content':'Биография Анджелины Джоли', 'is_published': True},
@@ -26,32 +30,20 @@ def about(request):
     return render(request, "women/about.html", data)
 
 
-def categories(request, cat_id):
-    return HttpResponse(f"<h1>Статьи по категориям</h1><p>id: {cat_id}</p>")
+def add_page(request):
+    return HttpResponse("Добавление статьи")
 
 
-def categories_by_slug(request, cat_slug):
-    if request.POST:
-        print(request.POST)
-
-    return HttpResponse(f"<h1>Статьи по категориям</h1><p>slug: {cat_slug}</p>")
+def contact(request):
+    return HttpResponse("Обратная связь")
 
 
-def archive(request, year):
-    if year > 2025:
-        # вычисление URL адреса
-        uri = reverse("cats", args=("sport",))
+def login(request):
+    return HttpResponse("Авторизация")
 
-        # перенаправление на главную страницу
-        # если permanent=True, то код 301 (другой постоянный URL адрес)
-        #      permanent=False(или не указан), то 302 (временный URL адрес)
-        return redirect(uri, permanent=True)
 
-        # второй способ через классы джанго
-        # return HttpResponseRedirect(uri)
-        # return HttpResponsePermanentRedirect(uri)
-
-    return HttpResponse(f"<h1>Архив по годам</h1><p>{year}</p>")
+def show_post(request, post_id):
+    return HttpResponse(f"id = {post_id}")
 
 
 # функция для обработки 404
