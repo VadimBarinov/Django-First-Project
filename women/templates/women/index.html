@@ -1,22 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-<!--значение по умолчанию (если отсутствует такая переменная)-->
-    <title>{{ main_title|default:"Без заголовка" }}</title>
-</head>
-<body>
-<ul>
-    <li><a href="{% url 'home' %}"> Главная страница</a></li>
-    {% for m in menu %}
-    {% if not forloop.last %}<li>{% else %}<li class="last">{% endif %}
-        <a href="{% url m.url_name %}">{{ m.title }}</a>
-    </li>
-    {% endfor %}
-</ul>
-<h1>
-    {{ title }}
-</h1>
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+{% include 'women/includes/nav.html' only with title2="dasdwasd" %}
+
 <ul>
 <!--    на стороне сервера -->
     {% for p in posts %}
@@ -33,5 +21,7 @@
     {% endif %}
     {% endfor %}
 </ul>
-</body>
-</html>
+
+{% include 'women/includes/nav.html' only %}
+
+{% endblock %}

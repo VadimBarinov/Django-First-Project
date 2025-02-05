@@ -56,7 +56,10 @@ ROOT_URLCONF = "sitewomen.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        # здесь прописываются нестандрттные пути
+        "DIRS": [
+            BASE_DIR / "templates", # путь с шаблонами для html
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
