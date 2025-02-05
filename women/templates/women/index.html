@@ -6,33 +6,26 @@
     <title>{{ main_title|default:"Без заголовка" }}</title>
 </head>
 <body>
-<!--фильры first и last-->
-<p>{{ menu|first }}</p>
-<p>{{ menu|last }}</p>
-<!--join-->
-<p>{{ menu|join:" | " }}</p>
-<!--фильтр add-->
-<p>{{ float|add:"50" }}</p>
-<!--фильтр кратности-->
-<p>{{ float|divisibleby:"3" }}</p>
-<p>{{ lst }}</p>
-<!--length-->
-<p>{{ set|length }}</p>
-<!--через точку можно обращаться к атрибутам-->
-<p>{{ dict.key_1 }} {{ dict.key_2 }}</p>
-<p>{{ obj.a }}</p>
 <p>
-<!--превращает в slug-->
-    {{ "The Main Page"|slugify}}
+    {{ menu|join:" | " }}
 </p>
-<p>{{ url }}</p>
 <h1>
-<!--фильтр upper-->
-    {{ title|upper }}
+    {{ title }}
 </h1>
-<h2>
-<!--удаляем указанные символы с помощью фильтра cut-->
-    {{ title|cut:" "|cut:"а" }}
-</h2>
+<ul>
+<!--    на стороне сервера -->
+    {% for p in posts %}
+    {% if p.is_published %}
+<!--    на стороне клиента-->
+    <li>
+        <h2>{{ p.title }}</h2>
+        <p>{{ p.content }}</p>
+        {% if not forloop.last %}
+        <hr>
+        {% endif %}
+    </li>
+    {% endif %}
+    {% endfor %}
+</ul>
 </body>
 </html>
