@@ -9,3 +9,7 @@ class Women(models.Model):
     # auto_now=True автозаполнение времени при любом изменении записи
     time_update = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=True)
+
+    # чтобы отображался только title записи
+    def __str__(self):
+        return self.title
