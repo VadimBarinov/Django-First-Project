@@ -25,7 +25,7 @@ class Women(models.Model):
     is_published = models.BooleanField(default=Status.DRAFT, choices=Status.choices)
 
     # создаем связь один ко многим
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT)
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='posts')
 
     objects = models.Manager()
     # новый менеджер
@@ -52,6 +52,10 @@ class Category(models.Model):
     name = models.CharField(max_length=100, db_index=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
 
+    objects = models.Manager()
+
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('category', kwargs={'cat_slug': self.slug})
