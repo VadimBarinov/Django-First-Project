@@ -13,3 +13,11 @@ class Women(models.Model):
     # чтобы отображался только title записи
     def __str__(self):
         return self.title
+
+    # класс для сортировки по умолчанию
+    class Meta:
+        ordering = ['-time_create']
+        # индексация для быстрой сортировки
+        indexes = [
+            models.Index(fields=['-time_create'])
+        ]
