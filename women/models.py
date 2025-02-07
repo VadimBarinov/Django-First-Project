@@ -24,6 +24,9 @@ class Women(models.Model):
     time_update = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=Status.DRAFT, choices=Status.choices)
 
+    # создаем связь один ко многим
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT)
+
     objects = models.Manager()
     # новый менеджер
     published = PublishedManager()
@@ -43,3 +46,12 @@ class Women(models.Model):
     # возвращает полноценный url адрес для каждой записи
     def get_absolute_url(self):
         return reverse('post', kwargs={'post_slug': self.slug})
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, db_index=True)
+    slug = models.SlugField(max_length=255, unique=True, db_index=True)
+
+    def __str__(self):
+        return self.name
+
