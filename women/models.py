@@ -14,24 +14,28 @@ class Women(models.Model):
         DRAFT = 0, 'Черновик'
         PUBLISHED = 1, 'Опубликован'
 
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, verbose_name='Заголовок')
     # blank=True можно не передавать значение при создании записи
-    slug = models.SlugField(max_length=255, unique=True, db_index=True)
-    content = models.TextField(blank=True)
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='Слаг')
+    content = models.TextField(blank=True, verbose_name='Текст статьи')
     # auto_now_add=True автозаполнение времени в момент первого появления
-    time_create = models.DateTimeField(auto_now_add=True)
+    time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     # auto_now=True автозаполнение времени при любом изменении записи
-    time_update = models.DateTimeField(auto_now=True)
-    is_published = models.BooleanField(default=Status.DRAFT, choices=Status.choices)
+    time_update = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
+    is_published = models.BooleanField(default=Status.DRAFT,
+                                       # для правильного отображения в админ панели
+                                       choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       verbose_name='Статус')
 
     # создаем связь один ко многим
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='posts')
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='posts', verbose_name='Категории')
 
     # связь многие ко многим
-    tags = models.ManyToManyField('TagPost', blank=True, related_name='tags')
+    tags = models.ManyToManyField('TagPost', blank=True, related_name='tags', verbose_name='Теги')
 
     # связь один к одному
-    husband = models.OneToOneField('Husband', on_delete=models.SET_NULL, null=True, blank=True, related_name='women')
+    husband = models.OneToOneField('Husband', on_delete=models.SET_NULL,
+                                   null=True, blank=True, related_name='women', verbose_name='Муж')
 
     objects = models.Manager()
     # новый менеджер
@@ -59,10 +63,14 @@ class Women(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, db_index=True)
-    slug = models.SlugField(max_length=255, unique=True, db_index=True)
+    name = models.CharField(max_length=100, db_index=True, verbose_name='Категория')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='Слаг')
 
     objects = models.Manager()
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
     def __str__(self):
         return self.name
