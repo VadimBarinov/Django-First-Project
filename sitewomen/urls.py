@@ -28,3 +28,6 @@ urlpatterns = [
 # обработчик 404
 # функция вызывается всякий раз, при возникновении 404
 handler404 = page_not_found
+
+admin.site.site_header = 'Панель администрирования'
+admin.site.index_title = 'Известные женщины мира'

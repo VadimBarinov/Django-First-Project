@@ -43,6 +43,10 @@ class Women(models.Model):
 
     # класс для сортировки по умолчанию
     class Meta:
+        # для отображения в админ панели
+        verbose_name = 'Известная женщина'
+        # множественное число
+        verbose_name_plural = 'Известные женщины'
         ordering = ['-time_create']
         # индексация для быстрой сортировки
         indexes = [
