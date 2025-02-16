@@ -30,6 +30,9 @@ class Women(models.Model):
     # связь многие ко многим
     tags = models.ManyToManyField('TagPost', blank=True, related_name='tags')
 
+    #связь один к одному
+    husband = models.OneToOneField('Husband', on_delete=models.SET_NULL, null=True, blank=True, related_name='women')
+
     objects = models.Manager()
     # новый менеджер
     published = PublishedManager()
@@ -75,3 +78,11 @@ class TagPost(models.Model):
 
     def get_absolute_url(self):
         return reverse('tag', kwargs={'tag_slug': self.slug})
+
+
+class Husband(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField(null=True)
+
+    def __str__(self):
+        return self.name
