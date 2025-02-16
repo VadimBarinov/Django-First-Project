@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, HttpResponsePermanentRedirect
+from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404
 from .models import Women, Category, TagPost
 
@@ -11,7 +11,8 @@ menu = [
 
 
 def index(request):
-    posts = Women.published.all()
+    # 'жадная загрузка', чтобы не было дублирования
+    posts = Women.published.all().select_related('cat')
     data = {
         "title": "Главная страница",
         "menu": menu,
@@ -55,7 +56,8 @@ def show_post(request, post_slug):
 
 def show_category(request, cat_slug):
     category = get_object_or_404(Category, slug=cat_slug)
-    posts = Women.published.filter(cat_id=category.pk)
+    # 'жадная загрузка', чтобы не было дублирования
+    posts = Women.published.filter(cat_id=category.pk).select_realated('cat')
     data = {
         "title": f"Рубрика: {category.name}",
         "menu": menu,
@@ -66,7 +68,8 @@ def show_category(request, cat_slug):
 
 def show_tag_postlist(request, tag_slug):
     tag = get_object_or_404(TagPost, slug=tag_slug)
-    posts = tag.tags.filter(is_published=Women.Status.PUBLISHED)
+    # 'жадная загрузка', чтобы не было дублирования
+    posts = tag.tags.filter(is_published=Women.Status.PUBLISHED).select_realated('cat')
 
     data ={
         'title': f'Тег: {tag.tag}',
